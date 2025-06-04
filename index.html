@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Learning for Kids</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #74b9ff;
+            color: white;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: #0984e3;
+        }
+        
+        .tab.active {
+            background-color: #0984e3;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-height: 300px;
+        }
+        
+        .alphabet-container, .numbers-container {
+            display: none;
+        }
+        
+        .active-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .letter, .number {
+            width: 60px;
+            height: 60px;
+            background-color: #ffeaa7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2d3436;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .letter:hover, .number:hover {
+            transform: scale(1.1);
+            background-color: #fdcb6e;
+        }
+        
+        .letter:active, .number:active {
+            transform: scale(0.95);
+        }
+        
+        .display-area {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #dfe6e9;
+            border-radius: 10px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .big-letter, .big-number {
+            font-size: 80px;
+            font-weight: bold;
+            color: #e17055;
+            margin-bottom: 10px;
+        }
+        
+        .word-example {
+            font-size: 24px;
+            color: #00b894;
+        }
+        
+        .number-example {
+            font-size: 24px;
+            color: #6c5ce7;
+        }
+        
+        .animal-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+        
+        .number-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+        
+        .controls {
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #00b894;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #00997b;
+        }
+        
+        .audio-control {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌟 Fun Learning for Kids 🌟</h1>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="openTab('alphabet')">Alphabet</button>
+        <button class="tab" onclick="openTab('numbers')">Numbers</button>
+    </div>
+    
+    <div class="content">
+        <div id="alphabet" class="alphabet-container active-content">
+            <div class="letters"></div>
+            <div class="display-area">
+                <div class="big-letter">A</div>
+                <div class="word-example">Apple</div>
+                <img class="animal-image" src="https://cdn.pixabay.com/photo/2016/01/05/13/58/apple-1122537_640.jpg" alt="Apple">
+                <audio class="audio-control" controls>
+                    <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+        
+        <div id="numbers" class="numbers-container">
+            <div class="numbers"></div>
+            <div class="display-area">
+                <div class="big-number">1</div>
+                <div class="number-example">One</div>
+                <img class="number-image" src="https://cdn.pixabay.com/photo/2017/01/31/15/33/apples-2025452_640.png" alt="One apple">
+                <audio class="audio-control" controls>
+                    <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button onclick="playAudio()">Play Sound</button>
+        <button onclick="speakText()">Speak</button>
+    </div>
+    
+    <script>
+        // Alphabet data
+        const alphabetData = [
+            { letter: "A", word: "Apple", image: "https://cdn.pixabay.com/photo/2016/01/05/13/58/apple-1122537_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-09.mp3" },
+            { letter: "B", word: "Ball", image: "https://cdn.pixabay.com/photo/2013/07/13/11/34/football-157930_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-10.mp3" },
+            { letter: "C", word: "Cat", image: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-21.mp3" },
+            { letter: "D", word: "Dog", image: "https://cdn.pixabay.com/photo/2016/12/13/05/15/puppy-1903313_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-23.mp3" },
+            { letter: "E", word: "Elephant", image: "https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-30.mp3" },
+            { letter: "F", word: "Fish", image: "https://cdn.pixabay.com/photo/2016/12/31/21/22/discus-fish-1943755_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-31.mp3" },
+            { letter: "G", word: "Giraffe", image: "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-32.mp3" },
+            { letter: "H", word: "House", image: "https://cdn.pixabay.com/photo/2016/06/24/10/47/house-1477041_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-33.mp3" },
+            { letter: "I", word: "Ice cream", image: "https://cdn.pixabay.com/photo/2018/03/31/06/31/dessert-3277505_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-34.mp3" },
+            { letter: "J", word: "Jellyfish", image: "https://cdn.pixabay.com/photo/2017/10/16/17/47/jellyfish-2857426_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-35.mp3" },
+            { letter: "K", word: "Kite", image: "https://cdn.pixabay.com/photo/2017/01/31/23/42/kite-2028203_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-36.mp3" },
+            { letter: "L", word: "Lion", image: "https://cdn.pixabay.com/photo/2017/01/06/23/03/lion-1958938_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-37.mp3" },
+            { letter: "M", word: "Monkey", image: "https://cdn.pixabay.com/photo/2017/09/23/09/31/monkey-2778197_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-38.mp3" },
+            { letter: "N", word: "Nest", image: "https://cdn.pixabay.com/photo/2017/01/31/23/42/bird-2028204_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-39.mp3" },
+            { letter: "O", word: "Orange", image: "https://cdn.pixabay.com/photo/2017/01/20/15/06/oranges-1995056_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-40.mp3" },
+            { letter: "P", word: "Panda", image: "https://cdn.pixabay.com/photo/2018/05/08/21/28/panda-3383924_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-41.mp3" },
+            { letter: "Q", word: "Queen", image: "https://cdn.pixabay.com/photo/2017/07/31/15/02/queen-2559279_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-42.mp3" },
+            { letter: "R", word: "Rabbit", image: "https://cdn.pixabay.com/photo/2017/04/02/22/36/easter-2197043_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-43.mp3" },
+            { letter: "S", word: "Sun", image: "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-44.mp3" },
+            { letter: "T", word: "Tree", image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-45.mp3" },
+            { letter: "U", word: "Umbrella", image: "https://cdn.pixabay.com/photo/2017/01/31/23/42/umbrella-2028208_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-46.mp3" },
+            { letter: "V", word: "Violin", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/violin-156634_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-47.mp3" },
+            { letter: "W", word: "Watermelon", image: "https://cdn.pixabay.com/photo/2016/02/23/17/42/watermelon-1218689_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-48.mp3" },
+            { letter: "X", word: "Xylophone", image: "https://cdn.pixabay.com/photo/2012/04/15/19/14/xylophone-35109_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-49.mp3" },
+            { letter: "Y", word: "Yak", image: "https://cdn.pixabay.com/photo/2013/07/12/18/57/yak-153422_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-50.mp3" },
+            { letter: "Z", word: "Zebra", image: "https://cdn.pixabay.com/photo/2017/01/10/03/06/zebra-1967928_640.jpg", sound: "https://www.soundjay.com/buttons/sounds/button-51.mp3" }
+        ];
+
+        // Numbers data
+        const numbersData = [
+            { number: "1", word: "One", image: "https://cdn.pixabay.com/photo/2017/01/31/15/33/apples-2025452_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-09.mp3" },
+            { number: "2", word: "Two", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/two-156439_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-10.mp3" },
+            { number: "3", word: "Three", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/three-156440_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-21.mp3" },
+            { number: "4", word: "Four", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/four-156441_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-23.mp3" },
+            { number: "5", word: "Five", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/five-156442_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-30.mp3" },
+            { number: "6", word: "Six", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/six-156443_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-31.mp3" },
+            { number: "7", word: "Seven", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/seven-156444_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-32.mp3" },
+            { number: "8", word: "Eight", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/eight-156445_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-33.mp3" },
+            { number: "9", word: "Nine", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/nine-156446_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-34.mp3" },
+            { number: "10", word: "Ten", image: "https://cdn.pixabay.com/photo/2013/07/13/10/07/ten-156447_640.png", sound: "https://www.soundjay.com/buttons/sounds/button-35.mp3" }
+        ];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            createAlphabetButtons();
+            createNumberButtons();
+        });
+
+        // Create alphabet buttons
+        function createAlphabetButtons() {
+            const lettersContainer = document.querySelector('.letters');
+            lettersContainer.innerHTML = '';
+            
+            alphabetData.forEach(item => {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'letter';
+                letterDiv.textContent = item.letter;
+                letterDiv.onclick = () => showLetter(item);
+                lettersContainer.appendChild(letterDiv);
+            });
+        }
+
+        // Create number buttons
+        function createNumberButtons() {
+            const numbersContainer = document.querySelector('.numbers');
+            numbersContainer.innerHTML = '';
+            
+            numbersData.forEach(item => {
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'number';
+                numberDiv.textContent = item.number;
+                numberDiv.onclick = () => showNumber(item);
+                numbersContainer.appendChild(numberDiv);
+            });
+        }
+
+        // Show letter details
+        function showLetter(item) {
+            document.querySelector('.big-letter').textContent = item.letter;
+            document.querySelector('.word-example').textContent = item.word;
+            document.querySelector('.animal-image').src = item.image;
+            document.querySelector('.animal-image').alt = item.word;
+            
+            const audioElement = document.querySelector('.alphabet-container .audio-control');
+            audioElement.src = item.sound;
+        }
+
+        // Show number details
+        function showNumber(item) {
+            document.querySelector('.big-number').textContent = item.number;
+            document.querySelector('.number-example').textContent = item.word;
+            document.querySelector('.number-image').src = item.image;
+            document.querySelector('.number-image').alt = item.word;
+            
+            const audioElement = document.querySelector('.numbers-container .audio-control');
+            audioElement.src = item.sound;
+        }
+
+        // Tab switching
+        function openTab(tabName) {
+            // Hide all content
+            document.querySelectorAll('.content > div').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show the selected content and mark its tab as active
+            document.getElementById(tabName).style.display = 'flex';
+            event.currentTarget.classList.add('active');
+        }
+
+        // Play audio
+        function playAudio() {
+            const activeTab = document.querySelector('.tab.active').textContent.trim();
+            let audioElement;
+            
+            if (activeTab === "Alphabet") {
+                audioElement = document.querySelector('.alphabet-container .audio-control');
+            } else {
+                audioElement = document.querySelector('.numbers-container .audio-control');
+            }
+            
+            audioElement.play();
+        }
+
+        // Speak text using Web Speech API
+        function speakText() {
+            const activeTab = document.querySelector('.tab.active').textContent.trim();
+            let textToSpeak;
+            
+            if (activeTab === "Alphabet") {
+                const letter = document.querySelector('.big-letter').textContent;
+                const word = document.querySelector('.word-example').textContent;
+                textToSpeak = `${letter} is for ${word}`;
+            } else {
+                const number = document.querySelector('.big-number').textContent;
+                const word = document.querySelector('.number-example').textContent;
+                textToSpeak = `${number} is ${word}`;
+            }
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.rate = 0.8; // Slower speech for kids
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("Sorry, your browser doesn't support text-to-speech!");
+            }
+        }
+    </script>
+</body>
+</html>
